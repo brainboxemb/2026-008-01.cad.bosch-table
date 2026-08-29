@@ -58,3 +58,10 @@ and dimension.
 The caster geometry is retained from the original aluminium-base reference
 model. The v1.1 coordinate-system change only translates the caster mounting
 locations; it does not simplify or alter the fork/kingpin construction.
+
+
+## Aluminium profile representation
+
+The 60 × 60 mm extrusion is represented with a longitudinal slot on all four
+profile faces. The slots are visual reference geometry; the detailed internal
+extrusion cross-section is intentionally not modelled.

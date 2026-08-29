@@ -19,6 +19,7 @@ Construction:
 
 module profile_60(length, axis="x") {
     // Lightweight visual representation of a 60 x 60 aluminium extrusion.
+    // A slot is shown on all four faces of the square cross-section.
     color(aluminium_color)
     difference() {
         if (axis == "x")
@@ -28,29 +29,101 @@ module profile_60(length, axis="x") {
 
         if (show_profile_slots) {
             if (axis == "x") {
-                // top slot
-                translate([-EPS, (profile_size-profile_slot_width)/2,
-                           profile_size-profile_slot_depth])
-                    cube([length+2*EPS, profile_slot_width,
-                          profile_slot_depth+EPS]);
+                // Top slot.
+                translate([
+                    -EPS,
+                    (profile_size-profile_slot_width)/2,
+                    profile_size-profile_slot_depth
+                ])
+                    cube([
+                        length+2*EPS,
+                        profile_slot_width,
+                        profile_slot_depth+EPS
+                    ]);
 
-                // outer side slot
-                translate([-EPS, profile_size-profile_slot_depth,
-                           (profile_size-profile_slot_width)/2])
-                    cube([length+2*EPS, profile_slot_depth+EPS,
-                          profile_slot_width]);
-            } else {
-                // top slot
-                translate([(profile_size-profile_slot_width)/2, -EPS,
-                           profile_size-profile_slot_depth])
-                    cube([profile_slot_width, length+2*EPS,
-                          profile_slot_depth+EPS]);
+                // Bottom slot.
+                translate([
+                    -EPS,
+                    (profile_size-profile_slot_width)/2,
+                    -EPS
+                ])
+                    cube([
+                        length+2*EPS,
+                        profile_slot_width,
+                        profile_slot_depth+EPS
+                    ]);
 
-                // outer side slot
-                translate([profile_size-profile_slot_depth, -EPS,
-                           (profile_size-profile_slot_width)/2])
-                    cube([profile_slot_depth+EPS, length+2*EPS,
-                          profile_slot_width]);
+                // Side slot at Y=0.
+                translate([
+                    -EPS,
+                    -EPS,
+                    (profile_size-profile_slot_width)/2
+                ])
+                    cube([
+                        length+2*EPS,
+                        profile_slot_depth+EPS,
+                        profile_slot_width
+                    ]);
+
+                // Side slot at Y=profile_size.
+                translate([
+                    -EPS,
+                    profile_size-profile_slot_depth,
+                    (profile_size-profile_slot_width)/2
+                ])
+                    cube([
+                        length+2*EPS,
+                        profile_slot_depth+EPS,
+                        profile_slot_width
+                    ]);
+            } else if (axis == "y") {
+                // Top slot.
+                translate([
+                    (profile_size-profile_slot_width)/2,
+                    -EPS,
+                    profile_size-profile_slot_depth
+                ])
+                    cube([
+                        profile_slot_width,
+                        length+2*EPS,
+                        profile_slot_depth+EPS
+                    ]);
+
+                // Bottom slot.
+                translate([
+                    (profile_size-profile_slot_width)/2,
+                    -EPS,
+                    -EPS
+                ])
+                    cube([
+                        profile_slot_width,
+                        length+2*EPS,
+                        profile_slot_depth+EPS
+                    ]);
+
+                // Side slot at X=0.
+                translate([
+                    -EPS,
+                    -EPS,
+                    (profile_size-profile_slot_width)/2
+                ])
+                    cube([
+                        profile_slot_depth+EPS,
+                        length+2*EPS,
+                        profile_slot_width
+                    ]);
+
+                // Side slot at X=profile_size.
+                translate([
+                    profile_size-profile_slot_depth,
+                    -EPS,
+                    (profile_size-profile_slot_width)/2
+                ])
+                    cube([
+                        profile_slot_depth+EPS,
+                        length+2*EPS,
+                        profile_slot_width
+                    ]);
             }
         }
     }
