@@ -1,0 +1,4 @@
+Generated with: OpenSCAD version 2026.08.29
+Requested version: latest
+Resolved snapshot: 2026.08.29
+Latest refresh policy: 30 day(s)
