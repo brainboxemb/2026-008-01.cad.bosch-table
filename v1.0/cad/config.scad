@@ -8,6 +8,16 @@ design. It is not intended to redesign or improve that solution yet.
 
 $fn = 36;
 
+/* [View] */
+show_worktop = true;
+show_frame = true;
+show_cabinet_panels = true;
+show_drawers = true;
+show_drawer_fronts = true;
+show_reference_floor = false;
+show_casters = true;
+show_saw_reference = true;
+
 /* [Overall dimensions] */
 stand_length = 1100;     // X [mm]
 stand_depth = 670;       // Y [mm]

@@ -1,3 +1,3 @@
 /* Render entrypoint. Output prefix is supplied by GitHub: table- */
-include <../main.scad>
+include <../assemblies/table.scad>
 table_assembly();

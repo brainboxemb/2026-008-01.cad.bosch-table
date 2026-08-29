@@ -6,6 +6,7 @@ on:
   push:
     paths:
       - "v1.0/cad/**"
+      - "v1.1/cad/**"
       - ".github/workflows/build-openscad.yml"
 
 permissions:
@@ -22,6 +23,7 @@ jobs:
       # v1.2 is included as the current example.
       export_projects: |
         v1.0/cad|v1.0/out/stl|table
+        v1.1/cad|v1.1/out/stl|table
 
       image_size: "2560,1440"
       changed_only: true
