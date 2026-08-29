@@ -1,0 +1,34 @@
+name: Build OpenSCAD outputs
+
+on:
+  workflow_dispatch:
+
+  push:
+    paths:
+      - "v1.0/cad/**"
+      - ".github/workflows/build-openscad.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    uses: brainboxemb/brainboxemb.github.actions/.github/workflows/openscad-build.yml@main
+    with:
+      render_projects: |
+        v1.0/cad|v1.0/out/png|tool-board
+
+      # Add a version here once cad/<version>/exports contains STL entry points.
+      # v1.2 is included as the current example.
+      export_projects: |
+        v1.0/cad|v1.0/out/stl|table
+
+      image_size: "2560,1440"
+      changed_only: true
+
+      watermark_text: ${{ vars.RENDER_WATERMARK_TEXT }}
+
+      git_user_name: ${{ vars.GIT_USER_NAME }}
+      git_user_email: ${{ vars.GIT_USER_EMAIL }}
+
+      commit_message: "Update OpenSCAD generated outputs"
