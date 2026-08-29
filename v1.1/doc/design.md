@@ -28,3 +28,11 @@ fixed yet in v1.1.
 The Pragmatic Workshop v1.0 model remains useful as a reference for ideas such
 as the timber construction, half-lap joints and storage layout, but v1.1 is no
 longer intended as a direct reconstruction of that stand.
+
+
+## Complete STL assembly
+
+`cad/exports/assembly.scad` is the complete-model STL export entrypoint for v1.1.
+With the `table` prefix, the expected generated file is:
+
+`v1.1/out/stl/table-assembly.stl`

@@ -36,6 +36,8 @@ upper structure and the Bosch GTS 10 XC installation.
 
 ![v1.1 aluminium base](v1.1/out/png/table-assembly.png)
 
+The representative assembly renders use a flatter three-quarter view so the frame proportions and front construction remain easy to read.
+
 More detail is documented in [`v1.1/doc/design.md`](v1.1/doc/design.md).
 
 
@@ -60,6 +62,7 @@ v1.0/
 │   ├── external/
 │   ├── renders/
 │   └── exports/
+│       └── assembly.scad
 ├── doc/
 └── out/
 
@@ -105,5 +108,21 @@ For example, `v1.1/cad/renders/assembly.scad` becomes:
 
 `v1.1/out/png/table-assembly.png`
 
-The `exports/` directories are intentionally kept for useful standalone
-geometry only.
+## STL exports
+
+Both versions contain a complete-assembly STL export entrypoint:
+
+```text
+v1.0/cad/exports/assembly.scad
+v1.1/cad/exports/assembly.scad
+```
+
+With the project prefix **`table`**, the expected GitHub-generated STL files are:
+
+```text
+v1.0/out/stl/table-assembly.stl
+v1.1/out/stl/table-assembly.stl
+```
+
+The export represents the complete assembly as it exists in that version. More
+individual exports should only be added when they are actually useful.
