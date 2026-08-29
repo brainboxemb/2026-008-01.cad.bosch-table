@@ -1,8 +1,8 @@
 include <../assemblies/table.scad>
 
-// Flatter three-quarter camera for documentation render.
-$vpr = [64, 0, 38];
-$vpt = [550, 335, 280];
-$vpd = 2450;
+// Assembly documentation camera.
+$vpr = [80, 0, 30];
+$vpt = [520, 335, 460];
+$vpd = 3000;
 
 table_assembly();
