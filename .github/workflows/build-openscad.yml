@@ -17,8 +17,8 @@ jobs:
     uses: brainboxemb/brainboxemb.github.actions/.github/workflows/openscad-build.yml@main
     with:
       render_projects: |
-        v1.0/cad|v1.0/out/png|tool-board
-        v1.1/cad|v1.1/out/png|tool-board
+        v1.0/cad|v1.0/out/png|table
+        v1.1/cad|v1.1/out/png|table
 
       # Add a version here once cad/<version>/exports contains STL entry points.
       # v1.2 is included as the current example.
