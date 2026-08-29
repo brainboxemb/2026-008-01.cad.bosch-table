@@ -56,40 +56,145 @@ module profile_60(length, axis="x") {
     }
 }
 
-module fixed_wheel() {
-    color(metal_color)
-        translate([-caster_plate_x/2, -caster_plate_y/2,
-                   caster_overall_height-caster_plate_thickness])
-            cube([caster_plate_x, caster_plate_y, caster_plate_thickness]);
+module rounded_box(size=[10,10,10], r=2) {
+    x = size[0];
+    y = size[1];
+    z = size[2];
+    rr = min(r, min(x,y)/2);
 
-    color(metal_color)
-        translate([0, 0, wheel_diameter/2])
-            rotate([90,0,0])
-                cylinder(d=axle_diameter, h=wheel_width+12, center=true);
-
-    color(wheel_color)
-        translate([0, 0, wheel_diameter/2])
-            rotate([90,0,0])
-                cylinder(d=wheel_diameter, h=wheel_width, center=true);
-
-    color(hub_color)
-        translate([0, -(wheel_width/2+0.5), wheel_diameter/2])
-            rotate([90,0,0])
-                cylinder(d=axle_diameter*1.8, h=1, center=true);
+    translate([rr, rr, 0])
+        linear_extrude(height=z)
+            offset(r=rr)
+                square([x-2*rr, y-2*rr]);
 }
 
-module swivel_wheel() {
+module wheel_tyre(center=[0,0,0]) {
+    translate(center)
+        color(wheel_color)
+        rotate([90,0,0])
+        difference() {
+            cylinder(d=wheel_diameter, h=wheel_width, center=true);
+            cylinder(d=wheel_diameter*0.46,
+                     h=wheel_width+2*EPS, center=true);
+        }
+
+    translate(center)
+        color(hub_color)
+        rotate([90,0,0])
+            cylinder(d=wheel_diameter*0.46,
+                     h=wheel_width*0.72, center=true);
+
+    translate(center)
+        color(metal_color)
+        rotate([90,0,0])
+            cylinder(d=axle_diameter,
+                     h=wheel_width+16, center=true);
+}
+
+module caster_mount_plate() {
     color(metal_color)
-        translate([-caster_plate_x/2, -caster_plate_y/2,
-                   caster_overall_height-caster_plate_thickness])
-            cube([caster_plate_x, caster_plate_y, caster_plate_thickness]);
+        translate([
+            -caster_plate_x/2,
+            -caster_plate_y/2,
+            caster_overall_height-caster_plate_thickness
+        ])
+            rounded_box(
+                [caster_plate_x, caster_plate_y, caster_plate_thickness],
+                5
+            );
+}
+
+module fixed_caster() {
+    wheel_axle_z = wheel_diameter/2;
+    fork_bottom = wheel_axle_z;
+    fork_top = caster_overall_height-caster_plate_thickness;
+    fork_h = fork_top-fork_bottom;
+    fork_plate_t = 7;
+    fork_gap = wheel_width + 8;
+
+    caster_mount_plate();
+
+    // Two side cheeks connect the wheel axle to the mounting plate.
+    for (y=[
+        -(fork_gap/2+fork_plate_t/2),
+         (fork_gap/2+fork_plate_t/2)
+    ])
+        color(metal_color)
+            translate([
+                -fork_plate_t/2,
+                y-fork_plate_t/2,
+                fork_bottom
+            ])
+                cube([fork_plate_t, fork_plate_t, fork_h]);
+
+    // Upper crosspiece directly below the mounting plate.
+    color(metal_color)
+        translate([
+            -18,
+            -(fork_gap+2*fork_plate_t)/2,
+            fork_top-12
+        ])
+            cube([36, fork_gap+2*fork_plate_t, 12]);
+
+    wheel_tyre([0,0,wheel_axle_z]);
+}
+
+module swivel_caster(mirror_y=false) {
+    wheel_axle_z = wheel_diameter/2;
+    pivot_z0 = caster_overall_height-caster_plate_thickness-22;
+    wheel_offset_x = -caster_trail;
+    fork_gap = wheel_width + 8;
+    fork_plate_t = 7;
+
+    caster_mount_plate();
+
+    // Swivel bearing / kingpin.
+    color(metal_color)
+        translate([0,0,pivot_z0])
+            cylinder(d=46, h=22);
 
     color(metal_color)
-        translate([0, 0, caster_overall_height-caster_plate_thickness-18])
-            cylinder(d=28, h=18);
+        translate([0,0,pivot_z0-10])
+            cylinder(d=18, h=12);
 
-    translate([caster_trail, 0, 0])
-        fixed_wheel();
+    // Sloping spine from the swivel bearing to the wheel axle.
+    color(metal_color)
+        hull() {
+            translate([0,0,pivot_z0])
+                cylinder(d=18, h=8);
+
+            translate([wheel_offset_x,0,wheel_axle_z+18])
+                rotate([90,0,0])
+                    cylinder(
+                        d=16,
+                        h=fork_gap+2*fork_plate_t,
+                        center=true
+                    );
+        }
+
+    // Two fork side plates.
+    for (y=[
+        -(fork_gap/2+fork_plate_t/2),
+         (fork_gap/2+fork_plate_t/2)
+    ])
+        color(metal_color)
+            hull() {
+                translate([
+                    wheel_offset_x-4,
+                    y-fork_plate_t/2,
+                    wheel_axle_z
+                ])
+                    cube([8, fork_plate_t, 42]);
+
+                translate([
+                    -4,
+                    y-fork_plate_t/2,
+                    pivot_z0-4
+                ])
+                    cube([8, fork_plate_t, 12]);
+            }
+
+    wheel_tyre([wheel_offset_x,0,wheel_axle_z]);
 }
 
 module aluminium_base_frame() {
@@ -111,20 +216,36 @@ module aluminium_base_frame() {
 }
 
 module wheel_set() {
-    // Front: swivel casters.
+    // Same physical locations as the original centred model,
+    // translated into the project coordinate system:
+    // original +/-500 X -> 30 / 1030
+    // original +/-305 Y -> 30 / 640.
+
+    // Left side: fixed wheels.
     translate([profile_size/2, profile_size/2, 0])
-        swivel_wheel();
+        fixed_caster();
 
-    translate([frame_length-profile_size/2, profile_size/2, 0])
-        swivel_wheel();
+    translate([
+        profile_size/2,
+        frame_width-profile_size/2,
+        0
+    ])
+        fixed_caster();
 
-    // Rear: fixed wheels.
-    translate([profile_size/2, frame_width-profile_size/2, 0])
-        fixed_wheel();
+    // Right side: swivel wheels.
+    translate([
+        frame_length-profile_size/2,
+        profile_size/2,
+        0
+    ])
+        swivel_caster(false);
 
-    translate([frame_length-profile_size/2,
-               frame_width-profile_size/2, 0])
-        fixed_wheel();
+    translate([
+        frame_length-profile_size/2,
+        frame_width-profile_size/2,
+        0
+    ])
+        swivel_caster(true);
 }
 
 module floor_reference() {

@@ -51,3 +51,10 @@ The aluminium base therefore occupies approximately `X=0..1060` and
 `Y=0..670`. It is deliberately not centred around the origin. This makes later
 placement of the asymmetric timber structure and the Bosch saw easier to read
 and dimension.
+
+
+## Caster geometry
+
+The caster geometry is retained from the original aluminium-base reference
+model. The v1.1 coordinate-system change only translates the caster mounting
+locations; it does not simplify or alter the fork/kingpin construction.
