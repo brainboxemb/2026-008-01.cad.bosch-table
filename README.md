@@ -34,6 +34,8 @@ profiles are enclosed between them and are therefore 940 mm long.
 This aluminium frame becomes the foundation for the future 60 × 40 mm timber
 upper structure and the Bosch GTS 10 XC installation.
 
+v1.1 follows the same coordinate convention as v1.0: `[0,0,0]` is the front-left floor point rather than the centre of the model.
+
 ![v1.1 aluminium base](v1.1/out/png/table-assembly.png)
 
 The representative assembly renders use a flatter three-quarter view so the frame proportions and front construction remain easy to read.

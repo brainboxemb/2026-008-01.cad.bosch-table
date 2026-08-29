@@ -36,3 +36,18 @@ longer intended as a direct reconstruction of that stand.
 With the `table` prefix, the expected generated file is:
 
 `v1.1/out/stl/table-assembly.stl`
+
+
+## Coordinate system
+
+v1.1 uses the same project coordinate convention as v1.0:
+
+- `[0,0,0]` is the front-left point on the floor;
+- X runs from left to right;
+- Y runs from front to rear;
+- Z runs upward.
+
+The aluminium base therefore occupies approximately `X=0..1060` and
+`Y=0..670`. It is deliberately not centred around the origin. This makes later
+placement of the asymmetric timber structure and the Bosch saw easier to read
+and dimension.

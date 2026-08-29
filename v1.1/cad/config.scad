@@ -3,6 +3,12 @@ Bosch GTS 10 XC table stand v1.1
 Configuration
 
 v1.1 starts the custom design around the aluminium mobile base.
+
+Project coordinate convention:
+  [0,0,0] = front-left point on the floor
+  X = left -> right
+  Y = front -> rear
+  Z = up
 */
 
 $fn = 72;
@@ -31,8 +37,8 @@ caster_trail = 28;
 axle_diameter = 14;
 
 /* [Bosch reference] */
-saw_x = -frame_length/2;   // left-align saw envelope with frame
-saw_y = -678/2;            // centred in depth by default
+saw_x = 0;               // left-align saw with the table origin
+saw_y = (frame_width - 678) / 2; // approximately centred in depth
 saw_z = caster_overall_height + profile_size;
 saw_color = [0.12, 0.22, 0.30, 0.85];
 
@@ -48,7 +54,3 @@ EPS = 0.2;
 /* [Derived] */
 frame_z = caster_overall_height;
 long_rail_length = frame_length - 2 * profile_size;
-side_rail_y = (frame_width - profile_size) / 2;
-end_rail_x = (frame_length - profile_size) / 2;
-wheel_x = end_rail_x;
-wheel_y = side_rail_y;
